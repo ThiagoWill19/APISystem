@@ -6,26 +6,32 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
-@Entity
-public class Product implements Serializable {
+@Entity(name = "PEDIDO")
+public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private String name;
-	private Double value;
+	private Integer quantity;
+	private Double totalValue;
+	@ManyToOne
+	@JoinColumn(name = "product_id")
+	private Product product;
 	
-	public Product() {
+	public Order() {
 		
 	}
 
-	public Product(Integer id, String name, Double value) {
+	public Order(Integer id, Product product, Integer quantity, Double totalValue) {
 		
 		this.id = id;
-		this.name = name;
-		this.value = value;
+		this.product = product;
+		this.quantity = quantity;
+		
 	}
 
 	public Integer getId() {
@@ -36,20 +42,28 @@ public class Product implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public Product getProduct() {
+		return product;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
-	public Double getValue() {
-		return value;
+	public Integer getQuantity() {
+		return quantity;
 	}
 
-	public void setValue(Double value) {
-		this.value = value;
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
+
+	public Double getTotalValue() {
+		return totalValue;
+	}
+
+	public void setTotalValue(Double totalValue) {
+		this.totalValue = totalValue;
 	}
 
 	@Override
@@ -68,7 +82,7 @@ public class Product implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Product other = (Product) obj;
+		Order other = (Order) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -76,5 +90,8 @@ public class Product implements Serializable {
 			return false;
 		return true;
 	}
-		
+	
+	
+	
+	
 }
