@@ -65,6 +65,9 @@ public class Order implements Serializable {
 	}
 
 	public Double getTotalValue() {
+		
+		totalValue = product.getValue() * this.quantity;
+		
 		return totalValue;
 	}
 

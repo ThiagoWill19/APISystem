@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -21,6 +22,7 @@ public class Purchase implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	@JsonFormat(pattern = "dd/MM/yy")
 	private Date date;
 	@OneToMany(mappedBy = "purchase")
 	private List<Order> orders = new ArrayList<>();
@@ -67,6 +69,13 @@ public class Purchase implements Serializable {
 	}
 
 	public Double getTotalValue() {
+		
+		totalValue = 0.0;
+		
+		for(Order o : orders) {
+			totalValue += o.getTotalValue();
+		}
+		
 		return totalValue;
 	}
 
