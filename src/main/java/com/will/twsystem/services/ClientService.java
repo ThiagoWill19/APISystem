@@ -19,4 +19,9 @@ public class ClientService {
 		return obj.orElseThrow(()-> new com.will.twsystem.services.exceptions.ObjectNotFoundException(
 				"Objeto não encontrado! ID:  " + id + ", "+ Client.class.getName()));
 	}
+	
+	public Client insert(Client obj) {
+		obj.setId(null);
+		return clientRepository.save(obj);
+	}
 }
