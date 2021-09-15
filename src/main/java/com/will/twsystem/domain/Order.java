@@ -38,7 +38,6 @@ public class Order implements Serializable {
 		this.product = product;
 		this.quantity = quantity;
 		this.purchase = purchase;
-		
 	}
 
 	public Integer getId() {

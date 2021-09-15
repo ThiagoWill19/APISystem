@@ -9,7 +9,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Purchase implements Serializable {
@@ -21,16 +25,21 @@ public class Purchase implements Serializable {
 	@OneToMany(mappedBy = "purchase")
 	private List<Order> orders = new ArrayList<>();
 	private Double totalValue;
+	@ManyToOne
+	@JoinColumn(name = "client_id")
+	@JsonIgnore
+	private Client client;
 	
 	public Purchase() {
 		
 	}
 
-	public Purchase(Integer id, Date date, Double totalValue) {
+	public Purchase(Integer id, Date date, Double totalValue,Client client) {
 		super();
 		this.id = id;
 		this.date = date;
 		this.totalValue = totalValue;
+		this.client = client;
 	}
 
 	public Integer getId() {
@@ -63,6 +72,14 @@ public class Purchase implements Serializable {
 
 	public void setTotalValue(Double totalValue) {
 		this.totalValue = totalValue;
+	}
+	
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
 	}
 
 	@Override
