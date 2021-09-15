@@ -1,44 +1,36 @@
 package com.will.twsystem.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-@Entity(name = "PEDIDO")
-public class Order implements Serializable {
+@Entity
+public class Purchase implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private Integer quantity;
+	private Date date;
+	@OneToMany(mappedBy = "purchase")
+	private List<Order> orders = new ArrayList<>();
 	private Double totalValue;
-	@ManyToOne
-	@JoinColumn(name = "product_id")
-	private Product product;
-	@ManyToOne
-	@JoinColumn(name = "purchase_id")
-	@JsonIgnore
-	private Purchase purchase;
 	
-	public Order() {
+	public Purchase() {
 		
 	}
 
-	public Order(Integer id, Product product, Integer quantity, Double totalValue, Purchase purchase) {
-		
+	public Purchase(Integer id, Date date, Double totalValue) {
+		super();
 		this.id = id;
-		this.product = product;
-		this.quantity = quantity;
-		this.purchase = purchase;
-		
+		this.date = date;
+		this.totalValue = totalValue;
 	}
 
 	public Integer getId() {
@@ -49,20 +41,20 @@ public class Order implements Serializable {
 		this.id = id;
 	}
 
-	public Product getProduct() {
-		return product;
+	public Date getDate() {
+		return date;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
-	public Integer getQuantity() {
-		return quantity;
+	public List<Order> getOrders() {
+		return orders;
 	}
 
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
 	}
 
 	public Double getTotalValue() {
@@ -71,14 +63,6 @@ public class Order implements Serializable {
 
 	public void setTotalValue(Double totalValue) {
 		this.totalValue = totalValue;
-	}
-
-	public Purchase getPurchase() {
-		return purchase;
-	}
-
-	public void setPurchase(Purchase purchase) {
-		this.purchase = purchase;
 	}
 
 	@Override
@@ -97,7 +81,7 @@ public class Order implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Order other = (Order) obj;
+		Purchase other = (Purchase) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
