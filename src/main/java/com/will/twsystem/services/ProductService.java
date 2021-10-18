@@ -20,4 +20,10 @@ public class ProductService {
 				"Objeto não encontrado! ID:  " + id + ", "+ Product.class.getName()));
 	}
 	
+	public Product insert(Product product) {
+		product.setId(null);
+		return productRepository.save(product);
+	}
+	
+	
 }
